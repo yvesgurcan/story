@@ -1,10 +1,11 @@
 {
     "name": "story",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "A game of procedurally-generated adventures!",
     "main": "index.js",
     "scripts": {
-        "start": "nodemon .",
+        "start": "NODE_ENV=production node .",
+        "dev": "NODE_ENV=development nodemon .",
         "test": "mocha"
     },
     "author": "Yves Gurcan",

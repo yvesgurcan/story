@@ -1,20 +1,43 @@
-const tracery = require('tracery-grammar');
-
-const RNGSingleton = require('./RNGSingleton');
+const mapValues = require('lodash/mapValues');
+const map = require('lodash/map');
+const StoryGenerator = require('./StoryGenerator');
 
 let instance = null;
 
 class Grammar {
     constructor() {
-        var grammar = tracery.createGrammar({
-            animal: ['panda', 'fox', 'capybara', 'iguana'],
-            emotion: ['sad', 'happy', 'angry', 'jealous'],
-            origin: ['I am #emotion.a# #animal#.']
-        });
+        if (!instance) {
+            this.init();
+            instance = this;
+            return this;
+        } else {
+            return instance;
+        }
+    }
 
-        grammar.addModifiers(tracery.baseEngModifiers);
+    init() {
+        const RNGSingleton = require('./RNGSingleton');
+        this.rng = new RNGSingleton();
 
-        console.log(grammar.flatten('#origin#'));
+        this.tracery = require('../lib/tracery');
+        this.tracery.setRNG(this.rng);
+    }
+
+    create(rules, outputKey = 'models') {
+        const { models, ...concepts } = rules;
+        const flatConcepts = mapValues(concepts, concept =>
+            map(concept, word => word.name || word)
+        );
+
+        const flatRules = {
+            ...flatConcepts,
+            models
+        };
+
+        const grammar = this.tracery.createGrammar(flatRules);
+        grammar.addModifiers(this.tracery.baseEngModifiers);
+
+        return new StoryGenerator(grammar, outputKey);
     }
 }
 

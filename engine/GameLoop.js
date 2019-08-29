@@ -2,6 +2,12 @@ const prompts = require('prompts');
 const toPairs = require('lodash/toPairs');
 const capitalize = require('lodash/capitalize');
 
+const { NODE_ENV, SEED } = process.env;
+
+if (NODE_ENV === 'development') {
+    console.log({ SEED });
+}
+
 const SEPARATOR =
     '----------------------------------------------------------------------';
 
@@ -9,11 +15,18 @@ const MENU_OPTIONS = ['New Game', 'Load Game', 'Quit'];
 
 class GameLoop {
     constructor() {
-        // singleton must be instantiated before using it anywhere else in the app
-        const RNGSingleton = require('./RNGSingleton');
-        this.rng = new RNGSingleton();
+        this.init();
+    }
 
-        this.displayMainMenu();
+    init() {
+        const RNGSingleton = require('./RNGSingleton');
+        this.rng = new RNGSingleton(SEED);
+
+        // debug
+        this.startAdventure();
+
+        // normal flow
+        // this.displayMainMenu();
     }
 
     async confirmQuit() {
@@ -60,7 +73,6 @@ class GameLoop {
     async createCharacter() {
         const Player = require('./Player');
         this.player = new Player();
-        this.player.init();
         await this.promptName();
         console.log(SEPARATOR);
         this.displayPlayerAttributes();
@@ -149,6 +161,11 @@ class GameLoop {
 
     calculateVitals() {
         this.player.calculateVitals();
+    }
+
+    startAdventure() {
+        const Adventure = require('./Adventure');
+        this.adventure = new Adventure();
     }
 }
 

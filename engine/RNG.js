@@ -1,6 +1,6 @@
 const Alea = require('alea');
 
-// RNG is the only class that can be instantiated more than once. All other classes are singletons.
+// RNG is not a singleton class.
 class RNG {
     init(seed) {
         if (this.seed) {

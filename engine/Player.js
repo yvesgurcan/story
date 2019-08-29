@@ -1,11 +1,9 @@
-const RNGSingleton = require('./RNGSingleton');
-
 let instance = null;
 
 class Player {
     constructor() {
-        this.rng = new RNGSingleton();
         if (!instance) {
+            this.init();
             instance = this;
             return this;
         } else {
@@ -14,6 +12,9 @@ class Player {
     }
 
     init() {
+        const RNGSingleton = require('./RNGSingleton');
+        this.rng = new RNGSingleton();
+
         const attributes = {
             strength: 10,
             dexterity: 10,
