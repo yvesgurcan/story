@@ -1,0 +1,11 @@
+{
+  "name": "story",
+  "version": "0.0.1",
+  "description": "A game of procedurally-generated adventures!",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ."
+  },
+  "author": "Yves Gurcan",
+  "license": "ISC"
+}
