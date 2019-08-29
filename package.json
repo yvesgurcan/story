@@ -1,14 +1,22 @@
 {
-  "name": "story",
-  "version": "0.0.1",
-  "description": "A game of procedurally-generated adventures!",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon ."
-  },
-  "author": "Yves Gurcan",
-  "license": "ISC",
-  "dependencies": {
-    "simplex-noise": "^2.4.0"
-  }
+    "name": "story",
+    "version": "0.0.1",
+    "description": "A game of procedurally-generated adventures!",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodemon .",
+        "test": "mocha"
+    },
+    "author": "Yves Gurcan",
+    "license": "ISC",
+    "dependencies": {
+        "alea": "^1.0.0",
+        "chai": "^4.2.0",
+        "lodash": "^4.17.15",
+        "mocha": "^6.2.0",
+        "nodemon": "^1.19.1",
+        "prompts": "^2.2.1",
+        "random-seed": "^0.3.0",
+        "simplex-noise": "^2.4.0"
+    }
 }
