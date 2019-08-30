@@ -1,6 +1,6 @@
-// StoryGenerator is not a singleton class.
+// Stories is not a singleton class.
 
-class StoryGenerator {
+class Stories {
     constructor(grammar, outputKey) {
         this.grammar = grammar;
         this.outputKey = outputKey;
@@ -11,4 +11,4 @@ class StoryGenerator {
     }
 }
 
-module.exports = StoryGenerator;
+module.exports = Stories;

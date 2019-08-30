@@ -1,6 +1,6 @@
 const mapValues = require('lodash/mapValues');
 const map = require('lodash/map');
-const StoryGenerator = require('./StoryGenerator');
+const Stories = require('./Stories');
 
 let instance = null;
 
@@ -37,7 +37,7 @@ class Grammar {
         const grammar = this.tracery.createGrammar(flatRules);
         grammar.addModifiers(this.tracery.baseEngModifiers);
 
-        return new StoryGenerator(grammar, outputKey);
+        return new Stories(grammar, outputKey);
     }
 }
 
