@@ -1,0 +1,14 @@
+[
+    {
+        "name": "treasure"
+    },
+    {
+        "name": "encounter"
+    },
+    {
+        "name": "quest"
+    },
+    {
+        "name": "shop"
+    }
+]

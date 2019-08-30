@@ -24,6 +24,12 @@ class GameLoop {
         this.rngUnseeded = new RNGClass();
         this.rngUnseeded.initUnseeded();
 
+        if (DEBUG) {
+            console.log(`Name: ${this.rngUnseeded.name}`);
+            this.createWorld();
+            return;
+        }
+
         this.displayMainMenu();
     }
 

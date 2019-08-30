@@ -1,5 +1,8 @@
-const Grammar = require('./Grammar');
-const stories = require('../stories');
+const Environment = require('./Environment');
+const Space = require('./Space');
+
+const environments = require('../world/environments');
+const events = require('../world/events');
 
 let instance = null;
 
@@ -14,22 +17,29 @@ class World {
         }
     }
 
-    init() {}
+    init() {
+        const RNGSingleton = require('./RNGSingleton');
+        this.rng = new RNGSingleton();
 
-    generateStory() {
-        this.grammar = new Grammar();
+        let generatedEnvironments = [];
+        environments.forEach(environment => {
+            const generatedEnvironment = new Environment(environment);
+            const spaces = [];
+            environment.spaces.forEach(space => {
+                if (this.rng.check(space.probability)) {
+                    const generatedSpace = new Space(space);
+                    spaces.push(generatedSpace);
+                }
+            });
 
-        const rules = {
-            ...stories,
-            model1: ['You #perceive# #person.a# #position# #place.the#.'],
-            model2: [
-                '#person.a.capitalize# #perceive.s# you #approach.ing# from #place.the#.'
-            ],
-            models: ['#model1#', '#model2#']
-        };
+            generatedEnvironment.spaces = spaces;
 
-        this.adventures = this.grammar.create(rules);
-        // console.log(this.adventures.story);
+            console.log(generatedEnvironment.name, spaces);
+
+            generatedEnvironments.push(generatedEnvironment);
+        });
+
+        this.environments = generatedEnvironments;
     }
 }
 

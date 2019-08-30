@@ -1,0 +1,49 @@
+[
+    {
+        "name": "cave",
+        "spaces": [
+            {
+                "name": "treasure",
+                "probability": 0.6
+            },
+            {
+                "name": "encounter",
+                "probability": 0.7
+            }
+        ]
+    },
+    {
+        "name": "forest",
+        "spaces": [
+            {
+                "name": "treasure",
+                "probability": 0.6
+            },
+            {
+                "name": "encounter",
+                "probability": 0.8
+            },
+            {
+                "name": "quest",
+                "probability": 0.3
+            }
+        ]
+    },
+    {
+        "name": "city",
+        "spaces": [
+            {
+                "name": "shop",
+                "probability": 0.9
+            },
+            {
+                "name": "quest",
+                "probability": 0.6
+            },
+            {
+                "name": "encounter",
+                "probability": 0.2
+            }
+        ]
+    }
+]
