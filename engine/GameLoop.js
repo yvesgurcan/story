@@ -20,9 +20,30 @@ class GameLoop {
     init() {
         const RNGSingleton = require('./RNGSingleton');
         this.rng = new RNGSingleton(SEED);
+        const RNGClass = require('./RNG');
+        this.rngUnseeded = new RNGClass();
+        this.rngUnseeded.initUnseeded();
 
         if (DEBUG) {
-            this.createWorld();
+            console.log(this.rngUnseeded.name);
+            console.log(this.rngUnseeded.name);
+            console.log(this.rngUnseeded.name);
+            console.log(this.rngUnseeded.name);
+            console.log(this.rngUnseeded.name);
+            console.log(this.rngUnseeded.name);
+            console.log(this.rngUnseeded.name);
+            console.log(this.rngUnseeded.name);
+            console.log(this.rngUnseeded.name);
+            console.log(this.rngUnseeded.name);
+            console.log(this.rngUnseeded.name);
+            console.log(this.rngUnseeded.name);
+            console.log(this.rngUnseeded.name);
+            console.log(this.rngUnseeded.name);
+            console.log(this.rngUnseeded.name);
+            console.log(this.rngUnseeded.name);
+            console.log(this.rngUnseeded.name);
+            console.log(this.rngUnseeded.name);
+            // this.createWorld();
             return;
         }
 
@@ -58,6 +79,7 @@ class GameLoop {
                 break;
             }
             case 0: {
+                this.createWorld();
                 await this.createCharacter();
                 break;
             }
@@ -109,19 +131,12 @@ class GameLoop {
     }
 
     async promptName() {
-        const { name = this.rng.name } = await prompts({
+        const { name } = await prompts({
             type: 'text',
             name: 'name',
-            message: `Enter the name of your character:`,
-            validate: value => {
-                if (!value) {
-                    return 'Please enter a name.';
-                }
-
-                return true;
-            }
+            message: `Enter the name of your character:`
         });
-        this.player.name = name;
+        this.player.name = name === '' ? this.rngUnseeded.name : name;
         console.log('');
     }
 
@@ -161,6 +176,7 @@ class GameLoop {
     }
 
     createWorld() {
+        console.log(`Creating world...\nSeed: ${this.rng.seed}\n`);
         const World = require('./World');
         this.world = new World();
     }
