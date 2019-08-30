@@ -1,12 +1,11 @@
 const prompts = require('prompts');
 const toPairs = require('lodash/toPairs');
 const capitalize = require('lodash/capitalize');
+const console = require('../lib/console');
 
-const { NODE_ENV, SEED } = process.env;
-
-if (NODE_ENV === 'development') {
-    console.log({ SEED });
-}
+const { DEBUG, SEED } = process.env;
+console.debug({ DEBUG });
+console.debug(SEED ? { SEED } : '__QUIET__');
 
 const SEPARATOR =
     '----------------------------------------------------------------------';
@@ -22,11 +21,12 @@ class GameLoop {
         const RNGSingleton = require('./RNGSingleton');
         this.rng = new RNGSingleton(SEED);
 
-        // debug
-        this.startAdventure();
+        if (DEBUG) {
+            this.createWorld();
+            return;
+        }
 
-        // normal flow
-        // this.displayMainMenu();
+        this.displayMainMenu();
     }
 
     async confirmQuit() {
@@ -45,9 +45,6 @@ class GameLoop {
     }
 
     async displayMainMenu() {
-        console.log(SEPARATOR);
-
-        console.log(SEPARATOR);
         const { choice } = await prompts({
             type: 'select',
             name: 'choice',
@@ -112,7 +109,7 @@ class GameLoop {
     }
 
     async promptName() {
-        const { name } = await prompts({
+        const { name = this.rng.name } = await prompts({
             type: 'text',
             name: 'name',
             message: `Enter the name of your character:`,
@@ -134,7 +131,7 @@ class GameLoop {
         for (let i = 0; i < attributes.length; i++) {
             if (this.player.pointsToDistribute) {
                 const [attributeName] = attributes[i];
-                const { extraPoints } = await prompts({
+                const { extraPoints = 0 } = await prompts({
                     type: 'number',
                     name: 'extraPoints',
                     message: `You have ${this.player.pointsToDistribute} points to distribute. How many do you want to add to your ${attributeName}?`,
@@ -163,9 +160,9 @@ class GameLoop {
         this.player.calculateVitals();
     }
 
-    startAdventure() {
-        const Adventure = require('./Adventure');
-        this.adventure = new Adventure();
+    createWorld() {
+        const World = require('./World');
+        this.world = new World();
     }
 }
 

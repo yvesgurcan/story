@@ -1,4 +1,5 @@
 const Alea = require('alea');
+const console = require('../lib/console');
 
 // RNG is not a singleton class.
 class RNG {
@@ -13,11 +14,24 @@ class RNG {
     }
 
     get newSeed() {
-        return Math.random();
+        const newSeed = Math.random();
+        console.debug({ newSeed });
+        return newSeed;
     }
 
     get next() {
         return this.rng();
+    }
+
+    get name() {
+        const nameLength = this.range(2, 13);
+
+        let name = '';
+        for (let i = 0; i < nameLength; i++) {
+            name += 'e';
+        }
+
+        return name;
     }
 
     range(min = 0, max = 100) {
@@ -27,6 +41,8 @@ class RNG {
 
         return Math.floor(this.rng() * (max - min + 1)) + min;
     }
+
+    check(threshold) {}
 }
 
 module.exports = RNG;
