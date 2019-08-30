@@ -3,7 +3,7 @@ const stories = require('../stories');
 
 let instance = null;
 
-class Adventure {
+class World {
     constructor() {
         if (!instance) {
             this.init();
@@ -14,7 +14,9 @@ class Adventure {
         }
     }
 
-    init() {
+    init() {}
+
+    generateStory() {
         this.grammar = new Grammar();
 
         const rules = {
@@ -31,4 +33,4 @@ class Adventure {
     }
 }
 
-module.exports = Adventure;
+module.exports = World;
