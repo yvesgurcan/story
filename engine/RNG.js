@@ -1,47 +1,40 @@
 const Alea = require('alea');
 const flatten = require('lodash/flatten');
+const console = require('../lib/console');
 
 const VOWELS = [
-    { value: 'a', coef: 81 },
-    { value: 'e', coef: 110 },
-    { value: 'i', coef: 50 },
-    { value: 'o', coef: 50 },
-    { value: 'u', coef: 27 },
-    { value: 'y', coef: 25 }
+    { value: 'a', probability: 81 },
+    { value: 'e', probability: 110 },
+    { value: 'i', probability: 50 },
+    { value: 'o', probability: 50 },
+    { value: 'u', probability: 27 },
+    { value: 'y', probability: 25 }
 ];
-
-const VOWELS_FLATTEN = flatten(
-    VOWELS.map(({ value, coef }) => Array(coef).fill(value))
-);
 
 const VOWELS_LETTERS = VOWELS.map(object => object.value);
 
 const CONSONANTS = [
-    { value: 'b', coef: 14 },
-    { value: 'c', coef: 27 },
-    { value: 'd', coef: 42 },
-    { value: 'f', coef: 22 },
-    { value: 'g', coef: 20 },
-    { value: 'h', coef: 60 },
-    { value: 'j', coef: 1 },
-    { value: 'k', coef: 7 },
-    { value: 'l', coef: 40 },
-    { value: 'm', coef: 24 },
-    { value: 'n', coef: 67 },
-    { value: 'p', coef: 19 },
-    { value: 'q', coef: 1 },
-    { value: 'r', coef: 59 },
-    { value: 's', coef: 63 },
-    { value: 't', coef: 90 },
-    { value: 'v', coef: 9 },
-    { value: 'w', coef: 23 },
-    { value: 'x', coef: 1 },
-    { value: 'z', coef: 1 }
+    { value: 'b', probability: 14 },
+    { value: 'c', probability: 27 },
+    { value: 'd', probability: 42 },
+    { value: 'f', probability: 22 },
+    { value: 'g', probability: 20 },
+    { value: 'h', probability: 50 },
+    { value: 'j', probability: 1 },
+    { value: 'k', probability: 7 },
+    { value: 'l', probability: 40 },
+    { value: 'm', probability: 24 },
+    { value: 'n', probability: 67 },
+    { value: 'p', probability: 19 },
+    { value: 'q', probability: 1 },
+    { value: 'r', probability: 59 },
+    { value: 's', probability: 63 },
+    { value: 't', probability: 90 },
+    { value: 'v', probability: 9 },
+    { value: 'w', probability: 23 },
+    { value: 'x', probability: 1 },
+    { value: 'z', probability: 1 }
 ];
-
-const CONSONANTS_FLATTEN = flatten(
-    CONSONANTS.map(({ value, coef }) => Array(coef).fill(value))
-);
 
 const CONSONANTS_LETTERS = CONSONANTS.map(object => object.value);
 
@@ -89,7 +82,7 @@ class RNG {
             let character;
             const penultimateCharacter = name[name.length - 2] || '';
             const lastCharacter = name[name.length - 1] || '';
-            const compoundCharacter = this.element(COMPOUND);
+            const compoundCharacter = this.pickElement(COMPOUND);
             if (
                 // compound character is not suitable for short names
                 nameLength >= MIN_NAME_LENGTH_FOR_COMPOUND_CHARACTER &&
@@ -108,8 +101,8 @@ class RNG {
                 !COMPOUND.includes(lastCharacter) &&
                 // the same compound character can't appear more than once
                 !name.includes(compoundCharacter) &&
-                // probability
-                this.check(0.2)
+                // 20% chance of having a compound character
+                this.chance(0.2)
             ) {
                 character = compoundCharacter;
                 hasCompoundCharacter = true;
@@ -118,21 +111,22 @@ class RNG {
                     // can't have more than 2 consecutive consonants
                     (!VOWELS_LETTERS.includes(lastCharacter) &&
                         !VOWELS_LETTERS.includes(penultimateCharacter)) ||
-                    // vowels can't be consecutive, unless probability
-                    ((this.check(0.15) ||
+                    // 25% chance that vowels will be consecutive
+                    ((this.chance(0.25) ||
                         !VOWELS_LETTERS.includes(lastCharacter)) &&
-                        // probability
-                        this.check(0.8))
+                        // 80% chance of having a vowel
+                        this.chance(0.8))
                 ) {
-                    character = this.element(VOWELS_FLATTEN);
+                    character = this.pickElementDistributed(VOWELS);
                 } else {
                     if (
                         CONSONANTS_LETTERS.includes(lastCharacter) &&
-                        this.check(0.5)
+                        // 40% chance of repeating the same consonant
+                        this.chance(0.4)
                     ) {
                         character = lastCharacter;
                     } else {
-                        character = this.element(CONSONANTS_FLATTEN);
+                        character = this.pickElementDistributed(CONSONANTS);
                     }
                 }
             }
@@ -151,7 +145,9 @@ class RNG {
         return Math.floor(this.rng() * (max - min + 1)) + min;
     }
 
-    element(array) {
+    // each element has an equal chance of being picked
+    // e.g.: ['mace', 'sword', 'bow', 'health potion']
+    pickElement(array) {
         if (array.length === 0) {
             return null;
         }
@@ -161,8 +157,48 @@ class RNG {
         return array[index];
     }
 
-    check(threshold) {
-        return this.next <= threshold;
+    // each element has a custom probability to be picked
+    // e.g.: [{ value: 'cave', probablity: 0.1, value: 'forest', probablity: 0.15 }]
+    pickElementDistributed(arrayWithProbabilities) {
+        let max = 0;
+        const arrayWithCumulativeProbabilities = arrayWithProbabilities.reduce(
+            (array, element) => {
+                array.push({
+                    ...element,
+                    threshold: max
+                });
+                max = Number(
+                    Number.parseFloat(max + element.probability).toPrecision(2)
+                );
+                return array;
+            },
+            []
+        );
+
+        const randomValue = this.next * max;
+
+        let selectedValue = arrayWithCumulativeProbabilities[0].value;
+        for (let i = arrayWithCumulativeProbabilities.length - 1; i > 0; i--) {
+            const element = arrayWithCumulativeProbabilities[i];
+            if (randomValue > element.threshold) {
+                selectedValue = element.value;
+                break;
+            }
+        }
+        return selectedValue;
+    }
+
+    // checks if a randomly generated number is below or equal to a certain threshold/probability
+    // e.g.: 0.8 means that there is 80% chance that the check will succeed
+    chance(probability, description) {
+        const randomValue = this.next;
+        const actualized = probability >= randomValue;
+        console.debug(
+            description
+                ? { description, probability, randomValue, actualized }
+                : '__QUIET__'
+        );
+        return actualized;
     }
 }
 

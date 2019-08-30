@@ -25,7 +25,7 @@ class GameLoop {
         this.rngUnseeded.initUnseeded();
 
         if (DEBUG) {
-            console.log(`Name: ${this.rngUnseeded.name}`);
+            console.debug(`Name: ${this.rngUnseeded.name}`);
             this.createWorld();
             return;
         }
