@@ -2,12 +2,12 @@ const Alea = require('alea');
 const flatten = require('lodash/flatten');
 
 const VOWELS = [
-    { value: 'a', coef: 3 },
-    { value: 'e', coef: 3 },
-    { value: 'i', coef: 1 },
-    { value: 'o', coef: 4 },
-    { value: 'u', coef: 3 },
-    { value: 'y', coef: 3 }
+    { value: 'a', coef: 81 },
+    { value: 'e', coef: 110 },
+    { value: 'i', coef: 50 },
+    { value: 'o', coef: 50 },
+    { value: 'u', coef: 27 },
+    { value: 'y', coef: 25 }
 ];
 
 const VOWELS_FLATTEN = flatten(
@@ -17,24 +17,24 @@ const VOWELS_FLATTEN = flatten(
 const VOWELS_LETTERS = VOWELS.map(object => object.value);
 
 const CONSONANTS = [
-    { value: 'b', coef: 4 },
-    { value: 'c', coef: 2 },
-    { value: 'd', coef: 3 },
-    { value: 'f', coef: 4 },
-    { value: 'g', coef: 1 },
-    { value: 'h', coef: 8 },
-    { value: 'j', coef: 2 },
-    { value: 'k', coef: 4 },
-    { value: 'l', coef: 4 },
-    { value: 'm', coef: 4 },
-    { value: 'n', coef: 4 },
-    { value: 'p', coef: 1 },
+    { value: 'b', coef: 14 },
+    { value: 'c', coef: 27 },
+    { value: 'd', coef: 42 },
+    { value: 'f', coef: 22 },
+    { value: 'g', coef: 20 },
+    { value: 'h', coef: 60 },
+    { value: 'j', coef: 1 },
+    { value: 'k', coef: 7 },
+    { value: 'l', coef: 40 },
+    { value: 'm', coef: 24 },
+    { value: 'n', coef: 67 },
+    { value: 'p', coef: 19 },
     { value: 'q', coef: 1 },
-    { value: 'r', coef: 4 },
-    { value: 's', coef: 4 },
-    { value: 't', coef: 5 },
-    { value: 'v', coef: 1 },
-    { value: 'w', coef: 1 },
+    { value: 'r', coef: 59 },
+    { value: 's', coef: 63 },
+    { value: 't', coef: 90 },
+    { value: 'v', coef: 9 },
+    { value: 'w', coef: 23 },
     { value: 'x', coef: 1 },
     { value: 'z', coef: 1 }
 ];
@@ -81,7 +81,7 @@ class RNG {
     }
 
     get name() {
-        const nameLength = this.range(4, 10);
+        const nameLength = this.range(4, 9);
 
         let name = '';
         let hasCompoundCharacter = false;
@@ -114,7 +114,6 @@ class RNG {
                 character = compoundCharacter;
                 hasCompoundCharacter = true;
             } else {
-                const vowel = this.element(VOWELS_FLATTEN);
                 if (
                     // can't have more than 2 consecutive consonants
                     (!VOWELS_LETTERS.includes(lastCharacter) &&
@@ -125,9 +124,16 @@ class RNG {
                         // probability
                         this.check(0.8))
                 ) {
-                    character = vowel;
+                    character = this.element(VOWELS_FLATTEN);
                 } else {
-                    character = this.element(CONSONANTS_FLATTEN);
+                    if (
+                        CONSONANTS_LETTERS.includes(lastCharacter) &&
+                        this.check(0.5)
+                    ) {
+                        character = lastCharacter;
+                    } else {
+                        character = this.element(CONSONANTS_FLATTEN);
+                    }
                 }
             }
 

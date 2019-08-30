@@ -24,29 +24,6 @@ class GameLoop {
         this.rngUnseeded = new RNGClass();
         this.rngUnseeded.initUnseeded();
 
-        if (DEBUG) {
-            console.log(this.rngUnseeded.name);
-            console.log(this.rngUnseeded.name);
-            console.log(this.rngUnseeded.name);
-            console.log(this.rngUnseeded.name);
-            console.log(this.rngUnseeded.name);
-            console.log(this.rngUnseeded.name);
-            console.log(this.rngUnseeded.name);
-            console.log(this.rngUnseeded.name);
-            console.log(this.rngUnseeded.name);
-            console.log(this.rngUnseeded.name);
-            console.log(this.rngUnseeded.name);
-            console.log(this.rngUnseeded.name);
-            console.log(this.rngUnseeded.name);
-            console.log(this.rngUnseeded.name);
-            console.log(this.rngUnseeded.name);
-            console.log(this.rngUnseeded.name);
-            console.log(this.rngUnseeded.name);
-            console.log(this.rngUnseeded.name);
-            // this.createWorld();
-            return;
-        }
-
         this.displayMainMenu();
     }
 
