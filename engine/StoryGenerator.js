@@ -7,7 +7,7 @@ class StoryGenerator {
     }
 
     get story() {
-        return this.grammar.expand(`#${this.outputKey}#`);
+        return this.grammar.flatten(`#${this.outputKey}#`);
     }
 }
 

@@ -1,6 +1,6 @@
 {
     "name": "story",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "A game of procedurally-generated adventures!",
     "main": "index.js",
     "scripts": {
