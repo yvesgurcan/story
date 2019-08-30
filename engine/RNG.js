@@ -14,9 +14,9 @@ class RNG {
     }
 
     get newSeed() {
-        const newSeed = Math.random();
-        console.debug({ newSeed });
-        return newSeed;
+        const seed = Math.random();
+        console.debug({ seed });
+        return seed;
     }
 
     get next() {
