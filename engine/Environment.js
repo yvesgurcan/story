@@ -9,6 +9,7 @@ class Environment {
 
     init(environment) {
         this.name = environment.name;
+        this.id = environment.id;
     }
 
     generateStory() {

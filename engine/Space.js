@@ -7,6 +7,7 @@ class Space {
 
     init(space) {
         this.name = space.name;
+        this.id = space.id;
     }
 }
 
