@@ -1,10 +1,14 @@
+## CHANGELOG
+
+You can find the changelog [here](./CHANGELOG.md).
+
 ## Model
 
 * GameLoop
 * RNGSingleton / RNG
 * Player
 * Grammar / Stories
-* World / Environment / Space
+* World / Environment / Node
 
 *Note: Unless mentioned otherwise, all classes below are singletons.*
 
@@ -16,7 +20,7 @@ Unsurprisingly, the `Player` class holds properties and methods related to the p
 
 The `Grammar` class defines rules that dictate the procedural generation of the text while creating the game world. It is tightly coupled to the `Stories` class (not a singleton), which purpose is to serve the content that was generated randomly.
 
-The `World` class is, of course, all about the game world. It works with the `Environment` class (not a singleton), which defines the different `Space`s (not singletons) that the player can visit within the world.
+The `World` class is, of course, all about the game world. It works with the `Environment` class (not a singleton), which defines the different `Node`s (not singletons) that the player can visit within the world.
 
 ## Documentation for dependencies
 - [Prompts](https://www.npmjs.com/package/prompts)

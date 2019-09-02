@@ -1,7 +1,7 @@
 const uuid = require('uuid/v4');
 const console = require('../lib/console');
 const Environment = require('./Environment');
-const Space = require('./Space');
+const Node = require('./Node');
 const environments = require('../world/environments');
 const events = require('../world/events');
 
@@ -54,12 +54,12 @@ class World {
             ...environment,
             id: uuid()
         });
-        const generatedSpaces = [];
-        environment.spaces.forEach(space =>
-            this.generateSpace(space, generatedSpaces)
+        const generatedNodes = [];
+        environment.nodes.forEach(node =>
+            this.generateNode(node, generatedNodes)
         );
 
-        generatedEnvironment.spaces = generatedSpaces;
+        generatedEnvironment.nodes = generatedNodes;
 
         console.debug(generatedEnvironment);
 
@@ -67,19 +67,21 @@ class World {
     }
 
     connectEnvironment(environment, environments) {
+        /*
         const numberOfConnections = this.rng.pickElementDistributed(
             CONNECTION_PROBABILITIES
         );
         console.debug({ numberOfConnections });
+        */
     }
 
-    generateSpace(space, generatedSpaces) {
-        if (this.rng.chance(space.probability)) {
-            const generatedSpace = new Space({
-                ...space,
+    generateNode(node, generatedNodes) {
+        if (this.rng.chance(node.probability)) {
+            const generatedNode = new Node({
+                ...node,
                 id: uuid()
             });
-            generatedSpaces.push(generatedSpace);
+            generatedNodes.push(generatedNode);
         }
     }
 }
