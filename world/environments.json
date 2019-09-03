@@ -1,6 +1,7 @@
 [
     {
         "name": "cave",
+        "minNodes": 3,
         "nodes": [
             {
                 "name": "treasure",
@@ -8,20 +9,23 @@
             },
             {
                 "name": "encounter",
-                "probability": 0.7
+                "probability": 0.6
             }
         ]
     },
     {
         "name": "forest",
+        "minNodes": 6,
         "nodes": [
             {
                 "name": "treasure",
-                "probability": 0.6
+                "probability": 0.6,
+                "maxOccurrences": 2
             },
             {
                 "name": "encounter",
-                "probability": 0.8
+                "probability": 0.8,
+                "maxOccurrences": 2
             },
             {
                 "name": "quest",
@@ -30,7 +34,7 @@
         ]
     },
     {
-        "name": "city",
+        "name": "village",
         "nodes": [
             {
                 "name": "shop",
@@ -38,11 +42,11 @@
             },
             {
                 "name": "quest",
-                "probability": 0.6
+                "probability": 0.4
             },
             {
                 "name": "encounter",
-                "probability": 0.2
+                "probability": 0.3
             }
         ]
     }

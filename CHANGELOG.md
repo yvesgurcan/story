@@ -1,3 +1,7 @@
+## v0.0.4 - 2019-09-01
+
+- Looking for interesting rules to generate nodes.
+
 ## v0.0.3 - 2019-08-30
 
 - The RNG can now generate plausible proper names procedurally.

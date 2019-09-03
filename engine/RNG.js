@@ -177,11 +177,16 @@ class RNG {
 
         const randomValue = this.next * max;
 
-        let selectedValue = arrayWithCumulativeProbabilities[0].value;
+        const firstElement = arrayWithCumulativeProbabilities[0];
+        let selectedValue =
+            firstElement.value === undefined
+                ? firstElement
+                : firstElement.value;
         for (let i = arrayWithCumulativeProbabilities.length - 1; i > 0; i--) {
             const element = arrayWithCumulativeProbabilities[i];
             if (randomValue > element.threshold) {
-                selectedValue = element.value;
+                selectedValue =
+                    element.value === undefined ? element : element.value;
                 break;
             }
         }
