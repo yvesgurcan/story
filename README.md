@@ -14,7 +14,7 @@ You can find the changelog [here](./CHANGELOG.md).
 
 The entry point of the app is the `GameLoop` class, which keeps the game going until the player quits the game.
 
-Within the `GameLoop` lives the `RNGSingleton` (Random Number Generator Singleton) which is a child of the `RNG` class (that one is not a singleton). The point of the RNG is indeed to provide random numbers and values as needed. It also ensures that the suite of number and values that was provided during the game can be retrieved a posteriori thanks to a seed. Where actions are directly influenced by user input (for example, combat or luck mechanisms), use the `RNG` class rather than `RNGSingleton` to ensure that all other deterministic actions are preserved when using the same seed.
+Within the `GameLoop` lives the `RNGSingleton` (Random Number Generator Singleton) which is a child of the `RNG` class (that one is not a singleton). The point of the RNG is indeed to provide random numbers and values as needed. It also ensures that the suite of number and values that was provided during the game can be retrieved a posteriori thanks to a seed. Where actions are directly influenced by user input (for example, combat or luck mechanisms), use the `RNGSingleton` class rather than `RNG` to ensure that all other deterministic actions are preserved when using the same seed.
 
 Unsurprisingly, the `Player` class holds properties and methods related to the player of the game.
 
